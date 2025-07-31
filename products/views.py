@@ -6,7 +6,7 @@ from .serializers import CategorySerializer, ProductSerializer
 from django.core.cache import cache
 from rest_framework.response import Response
 
-# Custom pagination class
+
 class ProductPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
@@ -73,7 +73,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save()
-        cache.clear()  # Clear all product cache
+        cache.clear()  
 
     def perform_update(self, serializer):
         serializer.save()

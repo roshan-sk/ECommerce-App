@@ -41,7 +41,6 @@ class RegisterSerializer(serializers.Serializer):
 
         send_otp_email(user, otp, user.email)
 
-        # Create user with is_verified=False
         user = UserProfile.objects.create_user(
             email=email,
             username=username,
@@ -49,7 +48,7 @@ class RegisterSerializer(serializers.Serializer):
             phone=phone,
             address=address,
             is_verified=False,
-            is_active=False,  # optional, will activate after OTP
+            is_active=False,  
         )
 
         return {
@@ -85,7 +84,7 @@ class VerifyOTPSerializer(serializers.Serializer):
             raise serializers.ValidationError("User not found. Please register again.")
 
         user.is_verified = True
-        user.is_active = True  # Optional, if you had set it False initially
+        user.is_active = True  
         user.save()
 
         EmailOTP.objects.filter(email=email).delete()
@@ -147,5 +146,3 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['id', 'username', 'email', 'phone', 'address', 'is_verified', 'orders']
-        # fields = ['id', 'username', 'email', 'phone', 'address', 'is_verified', 'orders']
-        # exclude = ['password']

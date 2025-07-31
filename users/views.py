@@ -1,6 +1,5 @@
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
-
 from utils.email_utils import send_new_otp_email
 from .filters import *
 from rest_framework.pagination import PageNumberPagination

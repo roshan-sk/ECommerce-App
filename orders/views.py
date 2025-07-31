@@ -92,7 +92,7 @@ class CartDetailView(APIView):
         except Cart.DoesNotExist:
             return Response({"message": "Cart is empty"}, status=200)
 
-        items = cart.items.all().order_by('-id')  # Descending
+        items = cart.items.all().order_by('-id') 
         paginator = StandardResultsSetPagination()
         paginated_items = paginator.paginate_queryset(items, request)
 
@@ -136,7 +136,7 @@ class PlaceOrderView(APIView):
             return Response({"error": "Cart not found"}, status=404)
 
         total = 0
-        order = Order.objects.create(user=user, total_price=0)  # temp 0
+        order = Order.objects.create(user=user, total_price=0)
         for item in cart.items.all():
             OrderItem.objects.create(
                 order=order,
@@ -145,7 +145,6 @@ class PlaceOrderView(APIView):
                 price_at_order=item.product.price
             )
             total += item.product.price * item.quantity
-            # Update stock
             item.product.stock -= item.quantity
             item.product.save()
 
@@ -161,7 +160,7 @@ class PlaceOrderView(APIView):
             context=context
         )
 
-        cart.items.all().delete()  # clear cart
+        cart.items.all().delete()  
 
         return Response({"message": "Order placed successfully."}, status=201)
     
