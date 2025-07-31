@@ -1,0 +1,19 @@
+<h2>Hello {{ user.username }},</h2>
+
+<p>Thank you for placing an order with <strong>Our Store</strong>! 🎉</p>
+
+<p><strong>Order ID:</strong> {{ order.id }}</p>
+<p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
+
+<h3>🛒 Order Summary:</h3>
+<ul>
+  {% for item in items %}
+    <li>{{ item.product.name }} — Quantity: {{ item.quantity }} — ₹{{ item.price }}</li>
+  {% endfor %}
+</ul>
+
+<p>We are currently processing your order. You will receive <b>status</b> of the order shortly.</p>
+
+
+<p>Thanks again for shopping with us! 🙌</p>
+<p><em>- The Our Store Team</em></p>

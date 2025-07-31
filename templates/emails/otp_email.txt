@@ -1,0 +1,14 @@
+Hello {{ user.username }},
+
+Thank you for registering with Our Store!
+
+To complete your email verification, please use the One-Time Password (OTP) provided below:
+
+👉 Your OTP is: {{ otp }}
+
+This code is valid for the next 10 minutes. Please do not share this code with anyone.
+
+If you did not initiate this request, please ignore this email or contact our support team.
+
+Best regards,  
+The Our Store Team

@@ -1,0 +1,12 @@
+Hello {{ user.username }},
+
+You’ve requested a new One-Time Password (OTP) to verify your email.
+
+🔐 Your new OTP is: {{ otp }}
+
+Please use this OTP within the next 10 minutes to complete your verification.
+
+If you did not request this, you can safely ignore this email.
+
+Best regards,  
+The Our Store Team
