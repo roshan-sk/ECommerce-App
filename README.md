@@ -1,120 +1,206 @@
-🛒 E-Commerce API
-This is a Django Rest Framework (DRF)-based backend API for an E-Commerce application. It supports features like user authentication, product management, cart, orders, filtering, pagination, caching (Redis), and email notifications.
+# 🛒 Django E-Commerce API
 
-📁 Base URL
-http://localhost:8000/
+A fully functional E-Commerce backend built using Django and Django REST Framework.  
+Features include user authentication (JWT), product and category management, cart operations, order placement, admin-only controls, Redis caching, pagination, filtering, and email notifications.
 
+---
 
-🔐 Authentication
-JWT-based authentication.
+## 📂 Project Structure
 
-Login and signup return access and refresh tokens.
+```bash
+E_commerce/
+├── users/              # User management (Register, Login, JWT, Profile)
+├── products/           # Product and Category CRUD
+├── orders/             # Cart and Orders
+├── templates/          # Email templates (HTML)
+├── utils/              # Email sending helpers
+├── postman/            # Postman Collection
+├── media/              # Uploaded media files
+├── .env                # environment variables
+├── requirements.txt    # Python dependencies
+└── README.md           # You're here
+```
 
-Add the token to the Authorization header for protected routes:
-Authorization: Bearer <your_token>
+---
 
-📦 API Endpoints (Grouped)
-🔑 Auth APIs
+## 🚀 Features
 
-Method	Endpoint	                               Description
-POST	/api/auth/signup/	                       Register a new user
-POST	/api/auth/signin/	                       Login and get JWT tokens
-POST	/api/auth/forgot-password/                 Send password reset email
-PUT	    /api/auth/reset-password/<uidb64>/<token>/ Reset password with token
-GET	    /api/auth/profile/	                       Get logged-in user profile
+- JWT Authentication
+- Role-based access (admin vs user)
+- Product + Category CRUD (admin only)
+- Add to Cart / Update Quantity / Remove Item
+- Place Order
+- Order History (for user)
+- Order Management (for admin)
+- Redis Caching for products & categories
+- Pagination + Filtering on large data
+- Email Notifications for:
+  - OTP Verification
+  - Order Confirmation
+  - Order Status Updates
 
-👥 Admin APIs
-Method	Endpoint	                               Description
-GET	    /api/users/all/	                           Get all users (admin only) with filtering & pagination
-GET	    /api/orders/all/	                       Get all orders (admin only) with filtering & pagination
-PUT	    /api/orders/update-status/<order_id>/	   Update order status (admin only)
+---
 
-🛍️ Category APIs
-Method	Endpoint	           Description
-GET	    /api/categories/	   List all categories (cached)
-POST	/api/categories/	   Create category (admin only)
-PUT	    /api/categories/<id>/  Update category (admin only)
-DELETE	/api/categories/<id>/  Delete category (admin only)
+## 🧱 Tech Stack
 
-📦 Product APIs
-Method	Endpoint	          Description
-GET	    /api/products/	      List all products (cached, paginated, filters supported)
-POST	/api/products/	      Create product (admin only)
-PUT	    /api/products/<id>/	  Update product (admin only)
-DELETE	/api/products/<id>/	  Delete product (admin only)
+- Python 3.x
+- Django 4.x
+- Django REST Framework
+- SQLite (default)
+- Redis (for caching)
+- Django Channels (optional for WebSocket support)
+- HTML email templates
 
-🔎 Product filters:
+---
 
-?category=<id>
+## 📥 Clone the Repository
 
-?price_min=100&price_max=500
+```bash
+git clone https://github.com/roshan-sk/ECommerce-App.git
+cd ECommerce-App
+```
 
-?in_stock=true
+---
 
-🛒 Cart APIs
-Method	Endpoint	                  Description
-GET	   /api/cart/	                  Get current user's cart (paginated)
-POST   /api/cart/add/<product_id>/	  Add a product to the cart
-PUT	   /api/cart/update/<product_id>/ Update product quantity in cart
+## ⚙️ Setup Instructions
 
-📑 Order APIs
-Method	Endpoint	             Description
-POST	/api/orders/place/	     Place an order (from cart)
-GET	    /api/orders/history/	 Get your order history (paginated & filter by status)
-GET	    /api/orders/<order_id>/	 Get a single order detail (own or admin)
+### 1. Create Virtual Environment
 
-🔎 Filtering & Pagination
-Pagination query param: ?page=1
+```bash
+python -m venv env
+source env/bin/activate  # Linux/macOS
+env\Scripts\activate     # Windows
+```
 
-Product filters:
+---
 
-?category=<category_id>
+### 2. Install Dependencies
 
-?price_min=100&price_max=500
-
-?in_stock=true
-
-Order filters:
-
-?status=pending,shipped
-
-🧠 Caching (Redis)
-Redis is used to cache:
-
-GET /api/products/
-
-GET /api/categories/
-
-Timeout: 1 hour
-
-Cache is invalidated on product/category create/update/delete
-
-📧 Email Notifications
-Emails are sent via Django’s send_mail for:
-
-OTP verification
-
-Order confirmation
-
-Order status update
-
-Templates are located in:
-utils/email_templates/
-🛠️ Setup & Installation
-Clone the repo
-
-Install dependencies:
-
-nginx
-Copy
-Edit
+```bash
 pip install -r requirements.txt
-Create .env and configure DB, Redis, and Email settings
+```
 
-Run migrations:
+---
 
+### 3. Configure Environment Variables
+
+Rename `.env.example` to `.env` and update:
+
+```env
+SECRET_KEY=your-secret-key
+DEBUG=True
+EMAIL_HOST_USER=your-email@example.com
+EMAIL_HOST_PASSWORD=your-email-password
+```
+
+---
+
+### 4. Run Redis Server
+
+Make sure Redis is running on port 6379.
+
+---
+
+### 5. Apply Migrations & Seed Data
+
+```bash
+python manage.py makemigrations
 python manage.py migrate
-Start Redis server
 
-Run Django server:
+# Optional: create superuser
+python manage.py createsuperuser
+
+# Seed categories and products
+# Uncomment seed logic inside: products/management/commands/seed_products.py
+# Then run:
+python manage.py seed_products
+```
+
+---
+
+### 6. Run Server
+
+```bash
 python manage.py runserver
+```
+
+📍 App runs at: http://127.0.0.1:8000/
+
+---
+
+## 🧪 Testing with Postman
+
+### Import Collection:
+
+- Open Postman
+- Click **Import**
+- Load: `postman/Ecommerce.postman_collection.json`
+
+---
+
+## 🔒 Authentication
+
+- Use `/api/auth/register/` and `/api/auth/login/` to obtain JWT tokens.
+- Add this in your request headers:
+
+```
+Authorization: Bearer <your-token>
+```
+
+---
+
+## 📦 API Endpoints
+
+| Method | Endpoint                    | Description                        |
+|--------|-----------------------------|------------------------------------|
+| POST   | /api/auth/register/         | Register user                      |
+| POST   | /api/auth/login/            | Login & get JWT                    |
+| GET    | /api/products/              | List products (paginated)         |
+| POST   | /api/products/              | Create product (admin)            |
+| GET    | /api/categories/            | List categories (cached)          |
+| POST   | /api/cart/add/<id>/         | Add product to cart               |
+| PUT    | /api/cart/update/<id>/      | Update product quantity           |
+| GET    | /api/cart/                  | Get cart items                    |
+| POST   | /api/orders/                | Place an order                    |
+| GET    | /api/orders/history/        | Get user’s order history          |
+| GET    | /api/orders/admin/          | Admin: all orders                 |
+| PUT    | /api/orders/update/<id>/    | Admin: update order status        |
+| GET    | /api/orders/<id>/           | Get order details                 |
+
+---
+
+## 📧 Email Notifications
+
+Sent for:
+- OTP Verification
+- Resend OTP
+- Order Placed
+- Order Status Changed
+
+Email HTML templates are located in the `/templates/` folder.
+
+---
+
+## 💾 Redis Caching
+
+Used for:
+- Product List
+- Category List
+
+Cache timeout: 1 hour  
+Cache is invalidated on create/update/delete.
+
+---
+
+## 🛠 Future Improvements
+
+- PostgreSQL integration
+- Admin dashboard (frontend)
+- WebSocket support for real-time order tracking
+- Razorpay/Stripe payment integration
+
+---
+
+## 📬 Contact
+
+Built with ❤️ by **Roshan SK**
