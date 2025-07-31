@@ -84,7 +84,7 @@ pip install -r requirements.txt
 
 ### 3. Configure Environment Variables
 
-Rename `.env.example` to `.env` and update:
+Rename `.env` to `.env` and update:
 
 ```env
 SECRET_KEY=your-secret-key
@@ -111,9 +111,8 @@ python manage.py migrate
 python manage.py createsuperuser
 
 # Seed categories and products
-# Uncomment seed logic inside: products/management/commands/seed_products.py
-# Then run:
-python manage.py seed_products
+To seed GoTo products/management/commands/seed_products.py uncomment the code
+run in the terminal or bash python manage.py seed_products
 ```
 
 ---
@@ -203,4 +202,5 @@ Cache is invalidated on create/update/delete.
 
 ## 📬 Contact
 
-Built with ❤️ by **Roshan SK**
+Built with ❤️ by ROSHAN SHAIK
+email : roshansk032@gmail.com
